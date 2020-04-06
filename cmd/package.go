@@ -20,7 +20,7 @@ type ApplicationInfo struct {
 }
 
 // Generate creates required json file for publish
-func Generate(appInfo ApplicationInfo, binPath string) {
+func GeneratePackageInfo(appInfo ApplicationInfo, binPath string) {
 	outputDirFlag := flag.String("o", "dist", "Output directory for writing updates")
 
 	var defaultPlatform string
@@ -42,7 +42,7 @@ func Generate(appInfo ApplicationInfo, binPath string) {
 	createPackageInfo(appInfo, binPath, platform, outputPath)
 }
 
-func generateSha256(path string) []byte {
+func GenerateSha256(path string) []byte {
 	h := sha256.New()
 	b, err := ioutil.ReadFile(path)
 	if err != nil {
@@ -55,7 +55,7 @@ func generateSha256(path string) []byte {
 func createPackageInfo(appInfo ApplicationInfo, binPath, platform, outputPath string) {
 
 	//prepare package.json
-	appInfo.BinarySHA = generateSha256(binPath)
+	appInfo.BinarySHA = GenerateSha256(binPath)
 	b, err := json.MarshalIndent(appInfo, "", "    ")
 	if err != nil {
 		fmt.Println("error:", err)

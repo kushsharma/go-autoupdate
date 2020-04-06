@@ -4,7 +4,7 @@
 MAKEFLAGS += --no-builtin-rules
 VERSION=`cat version`
 BUILD=`date +%FT%T%z`
-CURRENTDIR=`pwd`
+COMMIT=`git rev-parse HEAD`
 EXECUTABLE="main"
 
 all: build
@@ -12,7 +12,7 @@ all: build
 .PHONY: build test clean generate dist init
 
 build: 
-	@go build -ldflags "-X 'main.Version=${VERSION}' -X 'main.Build=${BUILD}' -X 'main.BinaryPath=${CURRENTDIR}/${EXECUTABLE}'" -o ${EXECUTABLE} ./main.go
+	@go build -ldflags "-X 'main.Version=${VERSION}' -X 'main.Build=${BUILD}' -X 'main.CommitSHA=${COMMIT}'" -o ${EXECUTABLE} ./main.go
 
 run: build
 	@./${EXECUTABLE}
